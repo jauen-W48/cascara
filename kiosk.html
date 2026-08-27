@@ -18,20 +18,30 @@
   html, body {
     margin: 0; padding: 0; height: 100%; width: 100%;
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-    background: linear-gradient(160deg, var(--teal) 0%, var(--teal-dark) 100%);
-    overflow: hidden;
+    background: linear-gradient(160deg, #1a7a76 0%, #0f5551 55%, #08312e 100%);
+    background-size: 200% 200%;
+    animation: drift 30s ease infinite;
+    overflow-y: auto;
+    overflow-x: hidden;
+    color: white;
+  }
+  @keyframes drift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
-  /* ---------- MAIN MENU ---------- */
-  #menu {
-    height: 100%; width: 100%;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    color: white; text-align: center;
-    transition: opacity 0.8s ease;
+  #page {
+    min-height: 100%;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center;
     position: relative;
+    padding-bottom: 5rem;
   }
+
+  /* ---------- HERO ---------- */
   .hero {
-    position: absolute; top: 0; left: 0; width: 100%; height: 46%;
+    position: relative; width: 100%; height: 34vh; min-height: 220px;
     overflow: hidden;
   }
   .hero img {
@@ -42,100 +52,74 @@
   .hero::after {
     content: "";
     position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(15,85,81,0) 0%, rgba(15,85,81,0.55) 65%, var(--teal) 100%);
+    background: linear-gradient(180deg, rgba(15,85,81,0) 0%, rgba(15,85,81,0.6) 70%, var(--teal) 100%);
   }
-  .menu-content {
-    position: relative;
-    margin-top: 30vh;
-    display: flex; flex-direction: column; align-items: center;
+  .hero-title {
+    position: absolute; bottom: 0.6rem; left: 0; width: 100%;
   }
-  #menu h1 {
-    font-size: 3rem; margin: 0 0 0.2rem 0; font-weight: 600;
-    text-shadow: 0 3px 14px rgba(0,0,0,0.35);
+  .hero-title h1 {
+    font-size: 2.6rem; margin: 0; font-weight: 600;
+    text-shadow: 0 3px 14px rgba(0,0,0,0.4);
   }
-  #menu .sub {
-    font-size: 1.1rem; opacity: 0.9; margin-bottom: 3rem;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  .hero-title .sub {
+    font-size: 1rem; opacity: 0.95; margin-top: 0.15rem;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.35);
   }
+
+  /* ---------- TILES ---------- */
   .tiles {
-    display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; padding: 0 2rem;
+    display: flex; gap: 1.6rem; flex-wrap: wrap; justify-content: center;
+    padding: 1.6rem 2rem 0 2rem;
   }
   .tile {
     background: rgba(255,255,255,0.97);
     color: var(--teal-dark);
-    border-radius: 24px;
-    width: 260px; height: 220px;
+    border-radius: 22px;
+    width: 220px; height: 180px;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-decoration: none;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.25);
     transition: transform 0.15s ease;
   }
   .tile:active { transform: scale(0.96); }
-  .tile .icon { font-size: 4rem; margin-bottom: 0.6rem; }
-  .tile .label { font-size: 1.3rem; font-weight: 600; }
-  .tile .desc { font-size: 0.85rem; opacity: 0.65; margin-top: 0.3rem; }
+  .tile .icon { font-size: 3.2rem; margin-bottom: 0.5rem; }
+  .tile .label { font-size: 1.15rem; font-weight: 600; }
+  .tile .desc { font-size: 0.8rem; opacity: 0.65; margin-top: 0.25rem; }
 
   #footer-note {
-    margin-top: 2.2rem; text-align: center;
-    color: rgba(255,255,255,0.9); font-size: 1.7rem; font-weight: 700;
+    margin-top: 1rem; text-align: center;
+    color: rgba(255,255,255,0.9); font-size: 1.4rem; font-weight: 700;
   }
 
-  #home-hint {
-    position: absolute; bottom: 1rem; width: 100%; text-align: center;
-    color: rgba(255,255,255,0.85); font-size: 1.35rem; font-weight: 600;
-    display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+  /* ---------- CLOCK / WEATHER / TIDES ---------- */
+  .info-section {
+    margin-top: 1.8rem;
+    display: flex; flex-direction: column; align-items: center;
   }
-  #home-hint .arrow {
-    font-size: 2rem;
-    animation: bounce-down 1.4s ease-in-out infinite;
-  }
-  @keyframes bounce-down {
-    0%, 100% { transform: translateY(0); opacity: 0.6; }
-    50% { transform: translateY(8px); opacity: 1; }
-  }
-
-  /* ---------- SCREENSAVER ---------- */
-  #screensaver {
-    position: fixed; inset: 0;
-    background: linear-gradient(160deg, #1a7a76 0%, #0f5551 50%, #08312e 100%);
-    background-size: 200% 200%;
-    animation: drift 30s ease infinite;
-    color: white;
-    display: none;
-    flex-direction: column; align-items: center; justify-content: center;
-    opacity: 0; transition: opacity 1s ease;
-  }
-  #screensaver.visible { display: flex; opacity: 1; }
-  @keyframes drift {
-    0%   { background-position: 0% 50%; }
-    50%  { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  .ss-time { font-size: 5.5rem; font-weight: 200; letter-spacing: 2px; text-shadow: 0 4px 20px rgba(0,0,0,0.25); }
-  .ss-date { font-size: 1.4rem; opacity: 0.9; margin-top: -0.3rem; margin-bottom: 2.2rem; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-  .ss-location { font-size: 1.1rem; opacity: 0.85; margin-bottom: 2.5rem; letter-spacing: 1px; text-transform: uppercase; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+  .ss-time { font-size: 3.2rem; font-weight: 200; letter-spacing: 1px; text-shadow: 0 4px 16px rgba(0,0,0,0.25); }
+  .ss-date { font-size: 1.05rem; opacity: 0.9; margin-top: -0.2rem; margin-bottom: 1.6rem; text-shadow: 0 2px 8px rgba(0,0,0,0.2); }
 
   .ss-section-title {
-    font-size: 0.95rem; opacity: 0.85; letter-spacing: 2px; text-transform: uppercase;
-    margin-bottom: 0.8rem; text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    font-size: 0.85rem; opacity: 0.85; letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 0.7rem; text-shadow: 0 2px 8px rgba(0,0,0,0.2);
   }
 
   .forecast-row {
-    display: flex; gap: 1.4rem; margin-bottom: 2.8rem;
+    display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; justify-content: center; padding: 0 1rem;
   }
   .forecast-day {
     background: rgba(255,255,255,0.16);
     backdrop-filter: blur(6px);
     border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 16px;
-    width: 110px; padding: 1rem 0.5rem;
+    border-radius: 14px;
+    width: 92px; padding: 0.8rem 0.4rem;
     text-align: center;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   }
-  .forecast-day .d { font-size: 0.9rem; opacity: 0.85; margin-bottom: 0.4rem; font-weight: 600; }
+  .forecast-day .d { font-size: 0.8rem; opacity: 0.85; margin-bottom: 0.35rem; font-weight: 600; }
   .forecast-day .icon {
-    font-size: 1.7rem; margin: 0 auto 0.5rem auto;
-    width: 46px; height: 46px; border-radius: 50%;
+    font-size: 1.4rem; margin: 0 auto 0.4rem auto;
+    width: 38px; height: 38px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   }
@@ -145,49 +129,59 @@
   .icon-snowy  { background: radial-gradient(circle, #eaf6ff, #b9e2fb); }
   .icon-storm  { background: radial-gradient(circle, #8b8fc9, #5c5f9e); }
   .icon-fog    { background: radial-gradient(circle, #dfe6ea, #b0bcc4); }
-  .forecast-day .hi { font-size: 1.25rem; font-weight: 700; color: #fff3d6; }
-  .forecast-day .lo { font-size: 0.95rem; opacity: 0.75; }
+  .forecast-day .hi { font-size: 1.05rem; font-weight: 700; color: #fff3d6; }
+  .forecast-day .lo { font-size: 0.85rem; opacity: 0.75; }
 
   .tide-row {
-    display: flex; gap: 2rem;
+    display: flex; gap: 1.4rem; flex-wrap: wrap; justify-content: center; padding: 0 1rem;
   }
   .tide-card {
     background: rgba(255,255,255,0.16);
     backdrop-filter: blur(6px);
     border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 16px;
-    padding: 1rem 1.6rem;
+    border-radius: 14px;
+    padding: 0.8rem 1.3rem;
     text-align: center;
-    min-width: 150px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    min-width: 130px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   }
-  .tide-card .t-label { font-size: 0.85rem; opacity: 0.9; margin-bottom: 0.3rem; font-weight: 600; }
-  .tide-card .t-icon { font-size: 1.6rem; margin-bottom: 0.3rem; }
+  .tide-card .t-label { font-size: 0.78rem; opacity: 0.9; margin-bottom: 0.25rem; font-weight: 600; }
+  .tide-card .t-icon { font-size: 1.3rem; margin-bottom: 0.25rem; }
   .tide-card.high .t-label { color: #7ec8f2; }
   .tide-card.low .t-label { color: #ffcf8a; }
-  .tide-card .t-time { font-size: 1.3rem; font-weight: 700; color: #fff3d6; }
-  .tide-card .t-height { font-size: 0.9rem; opacity: 0.75; }
+  .tide-card .t-time { font-size: 1.1rem; font-weight: 700; color: #fff3d6; }
+  .tide-card .t-height { font-size: 0.8rem; opacity: 0.75; }
 
-  .ss-loading { opacity: 0.6; font-size: 1rem; }
-  .tap-hint {
-    position: absolute; bottom: 2.2rem; font-size: 1.4rem; font-weight: 600;
-    opacity: 0.95; letter-spacing: 0.5px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.25);
-    animation: pulse 2.5s ease-in-out infinite;
+  .ss-loading { opacity: 0.6; font-size: 0.95rem; }
+
+  /* ---------- HOME HINT ---------- */
+  #home-hint {
+    margin-top: 2rem;
+    text-align: center;
+    color: rgba(255,255,255,0.85); font-size: 1.1rem; font-weight: 600;
+    display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
   }
-  @keyframes pulse {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 1; }
+  #home-hint .arrow {
+    font-size: 1.7rem;
+    animation: bounce-down 1.4s ease-in-out infinite;
+  }
+  @keyframes bounce-down {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(8px); opacity: 1; }
   }
 </style>
 </head>
 <body>
 
-<div id="menu">
-  <div class="hero"><img src="img/kiosk_house.jpg" alt="Casa Cara"></div>
-  <div class="menu-content">
-  <h1>Casa Cara</h1>
-  <div class="sub">2163 Avalon Ave &nbsp;·&nbsp; Avalon, NJ</div>
+<div id="page">
+  <div class="hero">
+    <img src="img/kiosk_house.jpg" alt="Casa Cara">
+    <div class="hero-title">
+      <h1>Casa Cara</h1>
+      <div class="sub">2163 Avalon Ave &nbsp;·&nbsp; Avalon, NJ</div>
+    </div>
+  </div>
+
   <div class="tiles">
     <a class="tile" href="https://jauen-w48.github.io/cascara/index.html?kiosk=1">
       <div class="icon">📖</div>
@@ -201,36 +195,32 @@
     </a>
   </div>
   <div id="footer-note">Tap a tile to get started</div>
+
+  <div class="info-section">
+    <div class="ss-time" id="ss-clock">--:--</div>
+    <div class="ss-date" id="ss-date">Loading...</div>
+
+    <div class="ss-section-title">5-Day Forecast</div>
+    <div class="forecast-row" id="forecast-row">
+      <div class="ss-loading">Loading weather…</div>
+    </div>
+
+    <div class="ss-section-title">Tides Today</div>
+    <div class="tide-row" id="tide-row">
+      <div class="ss-loading">Loading tides…</div>
+    </div>
+  </div>
+
   <div id="home-hint">
     <span>Press HOME BUTTON, then CASA CARA to return here from music app</span>
     <span class="arrow">⬇️</span>
   </div>
-  </div>
-</div>
-
-<div id="screensaver">
-  <div class="ss-time" id="ss-clock">--:--</div>
-  <div class="ss-date" id="ss-date">Loading...</div>
-  <div class="ss-location">Avalon, New Jersey</div>
-
-  <div class="ss-section-title">5-Day Forecast</div>
-  <div class="forecast-row" id="forecast-row">
-    <div class="ss-loading">Loading weather…</div>
-  </div>
-
-  <div class="ss-section-title">Tides Today</div>
-  <div class="tide-row" id="tide-row">
-    <div class="ss-loading">Loading tides…</div>
-  </div>
-
-  <div class="tap-hint">👆 Tap for Guest Access and Music</div>
 </div>
 
 <script>
   // ---------- Config ----------
   const LAT = 39.1001, LON = -74.7157; // Avalon, NJ
   const TIDE_STATION = "8536110"; // NOAA Cape May, NJ — nearest official tide prediction station to Avalon
-  const IDLE_TIMEOUT_MS = 90 * 1000; // 90s idle -> screensaver
   const REFRESH_MS = 30 * 60 * 1000; // refresh weather/tide data every 30 min
 
   // ---------- Sonos app open with App Store fallback ----------
@@ -335,31 +325,6 @@
   loadTides();
   setInterval(loadWeather, REFRESH_MS);
   setInterval(loadTides, REFRESH_MS);
-
-  // ---------- Idle detection -> screensaver ----------
-  let idleTimer;
-  const menu = document.getElementById("menu");
-  const screensaver = document.getElementById("screensaver");
-
-  function showScreensaver() {
-    screensaver.classList.add("visible");
-  }
-  function hideScreensaver() {
-    screensaver.classList.remove("visible");
-    resetIdleTimer();
-  }
-  function resetIdleTimer() {
-    clearTimeout(idleTimer);
-    idleTimer = setTimeout(showScreensaver, IDLE_TIMEOUT_MS);
-  }
-
-  screensaver.addEventListener("click", hideScreensaver);
-  screensaver.addEventListener("touchstart", hideScreensaver);
-  ["click", "touchstart", "mousemove"].forEach(evt => {
-    menu.addEventListener(evt, resetIdleTimer);
-  });
-
-  resetIdleTimer();
 </script>
 
 </body>
