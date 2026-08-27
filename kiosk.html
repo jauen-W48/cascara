@@ -54,17 +54,17 @@
   .tile .desc { font-size: 0.85rem; opacity: 0.65; margin-top: 0.3rem; }
 
   #footer-note {
-    position: absolute; bottom: 3.6rem; width: 100%; text-align: center;
-    color: rgba(255,255,255,0.85); font-size: 1.3rem; font-weight: 600;
+    margin-top: 2.2rem; text-align: center;
+    color: rgba(255,255,255,0.9); font-size: 1.7rem; font-weight: 700;
   }
 
   #home-hint {
-    position: absolute; bottom: 0.6rem; width: 100%; text-align: center;
-    color: rgba(255,255,255,0.75); font-size: 1rem; font-weight: 500;
-    display: flex; flex-direction: column; align-items: center; gap: 0.1rem;
+    position: absolute; bottom: 1rem; width: 100%; text-align: center;
+    color: rgba(255,255,255,0.85); font-size: 1.35rem; font-weight: 600;
+    display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
   }
   #home-hint .arrow {
-    font-size: 1.6rem;
+    font-size: 2rem;
     animation: bounce-down 1.4s ease-in-out infinite;
   }
   @keyframes bounce-down {
@@ -75,9 +75,9 @@
   /* ---------- SCREENSAVER ---------- */
   #screensaver {
     position: fixed; inset: 0;
-    background: linear-gradient(135deg, #ff7e5f, #feb47b, #ff9966, #ff5e62, #ffb454, #f96d5b);
-    background-size: 300% 300%;
-    animation: drift 40s ease infinite;
+    background: linear-gradient(160deg, #1a7a76 0%, #0f5551 50%, #08312e 100%);
+    background-size: 200% 200%;
+    animation: drift 30s ease infinite;
     color: white;
     display: none;
     flex-direction: column; align-items: center; justify-content: center;
@@ -111,7 +111,18 @@
     box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   }
   .forecast-day .d { font-size: 0.9rem; opacity: 0.85; margin-bottom: 0.4rem; font-weight: 600; }
-  .forecast-day .icon { font-size: 1.9rem; margin-bottom: 0.4rem; }
+  .forecast-day .icon {
+    font-size: 1.7rem; margin: 0 auto 0.5rem auto;
+    width: 46px; height: 46px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .icon-sunny  { background: radial-gradient(circle, #ffd76b, #ffb74d); }
+  .icon-cloudy { background: radial-gradient(circle, #cfd8e3, #90a4ae); }
+  .icon-rainy  { background: radial-gradient(circle, #7ec8f2, #4a90c9); }
+  .icon-snowy  { background: radial-gradient(circle, #eaf6ff, #b9e2fb); }
+  .icon-storm  { background: radial-gradient(circle, #8b8fc9, #5c5f9e); }
+  .icon-fog    { background: radial-gradient(circle, #dfe6ea, #b0bcc4); }
   .forecast-day .hi { font-size: 1.25rem; font-weight: 700; color: #fff3d6; }
   .forecast-day .lo { font-size: 0.95rem; opacity: 0.75; }
 
@@ -129,8 +140,9 @@
     box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   }
   .tide-card .t-label { font-size: 0.85rem; opacity: 0.9; margin-bottom: 0.3rem; font-weight: 600; }
-  .tide-card.high .t-label { color: #fff3b0; }
-  .tide-card.low .t-label { color: #ffd6c9; }
+  .tide-card .t-icon { font-size: 1.6rem; margin-bottom: 0.3rem; }
+  .tide-card.high .t-label { color: #7ec8f2; }
+  .tide-card.low .t-label { color: #ffcf8a; }
   .tide-card .t-time { font-size: 1.3rem; font-weight: 700; color: #fff3d6; }
   .tide-card .t-height { font-size: 0.9rem; opacity: 0.75; }
 
@@ -166,7 +178,7 @@
   </div>
   <div id="footer-note">Tap a tile to get started</div>
   <div id="home-hint">
-    <span>Press HOME, then Casa Cara, to return</span>
+    <span>Press HOME BUTTON, then CASA CARA to return here from music app</span>
     <span class="arrow">⬇️</span>
   </div>
 </div>
@@ -231,6 +243,15 @@
     80: "🌦️", 81: "🌧️", 82: "⛈️",
     95: "⛈️", 96: "⛈️", 99: "⛈️"
   };
+  const weatherIconClass = {
+    0: "icon-sunny", 1: "icon-sunny", 2: "icon-cloudy", 3: "icon-cloudy",
+    45: "icon-fog", 48: "icon-fog",
+    51: "icon-rainy", 53: "icon-rainy", 55: "icon-rainy",
+    61: "icon-rainy", 63: "icon-rainy", 65: "icon-rainy",
+    71: "icon-snowy", 73: "icon-snowy", 75: "icon-snowy",
+    80: "icon-rainy", 81: "icon-rainy", 82: "icon-storm",
+    95: "icon-storm", 96: "icon-storm", 99: "icon-storm"
+  };
 
   async function loadWeather() {
     try {
@@ -243,11 +264,12 @@
         const date = new Date(dateStr + "T12:00:00");
         const dayLabel = i === 0 ? "Today" : date.toLocaleDateString("en-US", { weekday: "short" });
         const icon = weatherIcons[data.daily.weathercode[i]] || "🌡️";
+        const iconClass = weatherIconClass[data.daily.weathercode[i]] || "icon-cloudy";
         const hi = Math.round(data.daily.temperature_2m_max[i]);
         const lo = Math.round(data.daily.temperature_2m_min[i]);
         const el = document.createElement("div");
         el.className = "forecast-day";
-        el.innerHTML = `<div class="d">${dayLabel}</div><div class="icon">${icon}</div><div class="hi">${hi}°</div><div class="lo">${lo}°</div>`;
+        el.innerHTML = `<div class="d">${dayLabel}</div><div class="icon ${iconClass}">${icon}</div><div class="hi">${hi}°</div><div class="lo">${lo}°</div>`;
         row.appendChild(el);
       });
     } catch (err) {
@@ -271,11 +293,12 @@
       if (!data.predictions) throw new Error("no data");
       data.predictions.forEach(p => {
         const label = p.type === "H" ? "High Tide" : "Low Tide";
+        const tideIcon = p.type === "H" ? "🌊⬆️" : "🌊⬇️";
         const t = new Date(p.t.replace(" ", "T"));
         const timeStr = t.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
         const el = document.createElement("div");
         el.className = "tide-card " + (p.type === "H" ? "high" : "low");
-        el.innerHTML = `<div class="t-label">${label}</div><div class="t-time">${timeStr}</div><div class="t-height">${parseFloat(p.v).toFixed(1)} ft</div>`;
+        el.innerHTML = `<div class="t-icon">${tideIcon}</div><div class="t-label">${label}</div><div class="t-time">${timeStr}</div><div class="t-height">${parseFloat(p.v).toFixed(1)} ft</div>`;
         row.appendChild(el);
       });
     } catch (err) {
