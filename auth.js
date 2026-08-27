@@ -36,3 +36,21 @@ if (localStorage.getItem('casa_kiosk_device') === '1' || sessionStorage.getItem(
 } else {
   document.getElementById('pw-input').focus();
 }
+
+// On the kiosk iPad only: return to the kiosk landing page after 2 minutes
+// of no touches/clicks/scrolling, so it doesn't sit open on a guest's page.
+if (localStorage.getItem('casa_kiosk_device') === '1') {
+  const IDLE_LIMIT_MS = 2 * 60 * 1000; // 2 minutes
+  let idleTimer;
+  function returnToKiosk() {
+    window.location.href = 'kiosk.html';
+  }
+  function resetIdleTimer() {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(returnToKiosk, IDLE_LIMIT_MS);
+  }
+  ['click', 'touchstart', 'mousemove', 'keydown', 'scroll'].forEach(function (evt) {
+    document.addEventListener(evt, resetIdleTimer, { passive: true });
+  });
+  resetIdleTimer();
+}
