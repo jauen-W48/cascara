@@ -36,12 +36,12 @@
     display: flex; flex-direction: column; align-items: center;
     text-align: center;
     position: relative;
-    padding-bottom: 3rem;
+    padding-bottom: 6rem; /* room for the fixed bottom hint */
   }
 
   /* ---------- HERO ---------- */
   .hero {
-    position: relative; width: 100%; height: 140px;
+    position: relative; width: 100%; height: 130px;
     overflow: hidden;
     flex-shrink: 0;
   }
@@ -53,74 +53,86 @@
   .hero::after {
     content: "";
     position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(15,85,81,0) 40%, var(--teal) 100%);
-  }
-  .title-block {
-    padding: 0.6rem 1rem 0.2rem 1rem;
-  }
-  .title-block h1 {
-    font-size: 1.9rem; margin: 0; font-weight: 600;
-  }
-  .title-block .sub {
-    font-size: 0.85rem; opacity: 0.85; margin-top: 0.15rem;
+    background: linear-gradient(180deg, rgba(15,85,81,0) 30%, var(--teal) 100%);
   }
 
-  /* ---------- TILES ---------- */
+  /* ---------- TITLE SECTION ---------- */
+  .section-title {
+    padding: 2.2rem 1rem 1.6rem 1rem;
+  }
+  .section-title h1 {
+    font-size: 4rem; margin: 0; font-weight: 700; letter-spacing: 0.5px;
+  }
+  .section-title .sub {
+    font-size: 1.1rem; opacity: 0.85; margin-top: 0.5rem;
+  }
+
+  .divider {
+    width: 82%; max-width: 640px;
+    height: 1px;
+    background: rgba(255,255,255,0.22);
+    margin: 0.4rem 0;
+  }
+
+  /* ---------- TILES SECTION ---------- */
+  .section-tiles {
+    padding: 1.8rem 1rem 2rem 1rem;
+  }
   .tiles {
-    display: flex; gap: 1.3rem; flex-wrap: wrap; justify-content: center;
-    padding: 0.6rem 2rem 0 2rem;
+    display: flex; gap: 1.6rem; flex-wrap: wrap; justify-content: center;
+    padding: 0 2rem;
   }
   .tile {
     background: rgba(255,255,255,0.97);
     color: var(--teal-dark);
-    border-radius: 20px;
-    width: 180px; height: 150px;
+    border-radius: 22px;
+    width: 200px; height: 170px;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-decoration: none;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.25);
     transition: transform 0.15s ease;
   }
   .tile:active { transform: scale(0.96); }
-  .tile .icon { font-size: 2.6rem; margin-bottom: 0.4rem; }
-  .tile .label { font-size: 1rem; font-weight: 600; }
-  .tile .desc { font-size: 0.72rem; opacity: 0.65; margin-top: 0.2rem; }
+  .tile .icon { font-size: 3rem; margin-bottom: 0.5rem; }
+  .tile .label { font-size: 1.1rem; font-weight: 600; }
+  .tile .desc { font-size: 0.78rem; opacity: 0.65; margin-top: 0.25rem; }
 
   #footer-note {
-    margin-top: 0.7rem; text-align: center;
-    color: rgba(255,255,255,0.9); font-size: 1.15rem; font-weight: 700;
+    margin-top: 1.2rem; text-align: center;
+    color: rgba(255,255,255,0.9); font-size: 1.3rem; font-weight: 700;
   }
 
-  /* ---------- CLOCK / WEATHER / TIDES ---------- */
-  .info-section {
-    margin-top: 1.2rem;
+  /* ---------- INFO SECTION (clock / weather / tides) ---------- */
+  .section-info {
+    padding: 1.8rem 1rem 1rem 1rem;
     display: flex; flex-direction: column; align-items: center;
   }
-  .ss-time { font-size: 2.6rem; font-weight: 200; letter-spacing: 1px; }
-  .ss-date { font-size: 0.95rem; opacity: 0.9; margin-top: -0.2rem; margin-bottom: 1.2rem; }
+  .ss-time { font-size: 4.2rem; font-weight: 200; letter-spacing: 1px; }
+  .ss-date { font-size: 1.3rem; opacity: 0.9; margin-top: -0.1rem; margin-bottom: 2rem; }
 
   .ss-section-title {
-    font-size: 0.78rem; opacity: 0.85; letter-spacing: 2px; text-transform: uppercase;
-    margin-bottom: 0.6rem;
+    font-size: 0.9rem; opacity: 0.85; letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 0.9rem;
   }
 
   .forecast-row {
-    display: flex; gap: 0.8rem; margin-bottom: 1.5rem; flex-wrap: wrap; justify-content: center; padding: 0 1rem;
+    display: flex; gap: 1.1rem; margin-bottom: 2.4rem; flex-wrap: wrap; justify-content: center; padding: 0 1rem;
   }
   .forecast-day {
     background: rgba(255,255,255,0.16);
     backdrop-filter: blur(6px);
     border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 14px;
-    width: 82px; padding: 0.65rem 0.35rem;
+    border-radius: 18px;
+    width: 118px; padding: 1.1rem 0.6rem;
     text-align: center;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.15);
   }
-  .forecast-day .d { font-size: 0.75rem; opacity: 0.85; margin-bottom: 0.3rem; font-weight: 600; }
+  .forecast-day .d { font-size: 1rem; opacity: 0.85; margin-bottom: 0.5rem; font-weight: 600; }
   .forecast-day .icon {
-    font-size: 1.25rem; margin: 0 auto 0.35rem auto;
-    width: 34px; height: 34px; border-radius: 50%;
+    font-size: 1.8rem; margin: 0 auto 0.5rem auto;
+    width: 52px; height: 52px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   }
   .icon-sunny  { background: radial-gradient(circle, #ffd76b, #ffb74d); }
   .icon-cloudy { background: radial-gradient(circle, #cfd8e3, #90a4ae); }
@@ -128,46 +140,47 @@
   .icon-snowy  { background: radial-gradient(circle, #eaf6ff, #b9e2fb); }
   .icon-storm  { background: radial-gradient(circle, #8b8fc9, #5c5f9e); }
   .icon-fog    { background: radial-gradient(circle, #dfe6ea, #b0bcc4); }
-  .forecast-day .hi { font-size: 0.95rem; font-weight: 700; color: #fff3d6; }
-  .forecast-day .lo { font-size: 0.78rem; opacity: 0.75; }
+  .forecast-day .hi { font-size: 1.35rem; font-weight: 700; color: #fff3d6; }
+  .forecast-day .lo { font-size: 1.05rem; opacity: 0.75; }
 
   .tide-row {
-    display: flex; gap: 1.1rem; flex-wrap: wrap; justify-content: center; padding: 0 1rem;
+    display: flex; gap: 1.4rem; flex-wrap: wrap; justify-content: center; padding: 0 1rem;
   }
   .tide-card {
     background: rgba(255,255,255,0.16);
     backdrop-filter: blur(6px);
     border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 14px;
-    padding: 0.65rem 1.1rem;
+    border-radius: 18px;
+    padding: 1.1rem 1.7rem;
     text-align: center;
-    min-width: 112px;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    min-width: 165px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.15);
   }
-  .tide-card .t-label { font-size: 0.72rem; opacity: 0.9; margin-bottom: 0.2rem; font-weight: 600; }
-  .tide-card .t-icon { font-size: 1.15rem; margin-bottom: 0.2rem; }
+  .tide-card .t-label { font-size: 0.95rem; opacity: 0.9; margin-bottom: 0.3rem; font-weight: 600; }
+  .tide-card .t-icon { font-size: 1.6rem; margin-bottom: 0.3rem; }
   .tide-card.high .t-label { color: #7ec8f2; }
   .tide-card.low .t-label { color: #ffcf8a; }
-  .tide-card .t-time { font-size: 1rem; font-weight: 700; color: #fff3d6; }
-  .tide-card .t-height { font-size: 0.75rem; opacity: 0.75; }
+  .tide-card .t-time { font-size: 1.5rem; font-weight: 700; color: #fff3d6; }
+  .tide-card .t-height { font-size: 0.95rem; opacity: 0.75; }
 
-  .ss-loading { opacity: 0.6; font-size: 0.9rem; }
+  .ss-loading { opacity: 0.6; font-size: 1rem; }
 
-  /* ---------- HOME HINT ---------- */
+  /* ---------- HOME HINT (fixed to bottom) ---------- */
   #home-hint {
-    margin-top: 1.4rem;
+    position: fixed; bottom: 0; left: 0; width: 100%;
+    padding: 0.9rem 1rem 1.1rem 1rem;
     text-align: center;
-    color: rgba(255,255,255,0.85); font-size: 0.95rem; font-weight: 600;
-    display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
-    padding: 0 1rem;
+    background: linear-gradient(180deg, rgba(8,49,46,0) 0%, rgba(8,49,46,0.85) 40%, rgba(8,49,46,0.95) 100%);
+    color: rgba(255,255,255,0.95); font-size: 1.05rem; font-weight: 600;
+    display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
   }
   #home-hint .arrow {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     animation: bounce-down 1.4s ease-in-out infinite;
   }
   @keyframes bounce-down {
     0%, 100% { transform: translateY(0); opacity: 0.6; }
-    50% { transform: translateY(6px); opacity: 1; }
+    50% { transform: translateY(7px); opacity: 1; }
   }
 </style>
 </head>
@@ -177,26 +190,33 @@
   <div class="hero">
     <img src="img/kiosk_house.jpg" alt="Casa Cara">
   </div>
-  <div class="title-block">
+
+  <div class="section-title">
     <h1>Casa Cara</h1>
     <div class="sub">2163 Avalon Ave &nbsp;·&nbsp; Avalon, NJ</div>
   </div>
 
-  <div class="tiles">
-    <a class="tile" href="https://jauen-w48.github.io/cascara/index.html?kiosk=1">
-      <div class="icon">📖</div>
-      <div class="label">Guest Guide</div>
-      <div class="desc">House info &amp; how-to's</div>
-    </a>
-    <a class="tile" href="sonos://" onclick="tryOpenSonos(event)">
-      <div class="icon">🎵</div>
-      <div class="label">Music</div>
-      <div class="desc">Open Sonos app</div>
-    </a>
-  </div>
-  <div id="footer-note">Tap a tile to get started</div>
+  <div class="divider"></div>
 
-  <div class="info-section">
+  <div class="section-tiles">
+    <div class="tiles">
+      <a class="tile" href="https://jauen-w48.github.io/cascara/index.html?kiosk=1">
+        <div class="icon">📖</div>
+        <div class="label">Guest Guide</div>
+        <div class="desc">House info &amp; how-to's</div>
+      </a>
+      <a class="tile" href="sonos://" onclick="tryOpenSonos(event)">
+        <div class="icon">🎵</div>
+        <div class="label">Music</div>
+        <div class="desc">Open Sonos app</div>
+      </a>
+    </div>
+    <div id="footer-note">Tap a tile to get started</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-info">
     <div class="ss-time" id="ss-clock">--:--</div>
     <div class="ss-date" id="ss-date">Loading...</div>
 
@@ -210,11 +230,11 @@
       <div class="ss-loading">Loading tides…</div>
     </div>
   </div>
+</div>
 
-  <div id="home-hint">
-    <span>Press HOME BUTTON, then CASA CARA to return here from music app</span>
-    <span class="arrow">⬇️</span>
-  </div>
+<div id="home-hint">
+  <span>Press HOME BUTTON, then CASA CARA to return here from music app</span>
+  <span class="arrow">⬇️</span>
 </div>
 
 <script>
