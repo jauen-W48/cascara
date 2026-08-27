@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Casa Cara</title>
+<style>
+  :root {
+    --teal: #1a7a76;
+    --teal-dark: #0f5551;
+    --teal-light: #e8f5f4;
+    --sand: #f7f3ea;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; padding: 0; height: 100%; width: 100%;
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(160deg, var(--teal) 0%, var(--teal-dark) 100%);
+    overflow: hidden;
+  }
+
+  /* ---------- MAIN MENU ---------- */
+  #menu {
+    height: 100%; width: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: white; text-align: center;
+    transition: opacity 0.8s ease;
+  }
+  #menu h1 {
+    font-size: 3rem; margin: 0 0 0.2rem 0; font-weight: 600;
+  }
+  #menu .sub {
+    font-size: 1.1rem; opacity: 0.85; margin-bottom: 3rem;
+  }
+  .tiles {
+    display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; padding: 0 2rem;
+  }
+  .tile {
+    background: rgba(255,255,255,0.97);
+    color: var(--teal-dark);
+    border-radius: 24px;
+    width: 260px; height: 220px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    transition: transform 0.15s ease;
+  }
+  .tile:active { transform: scale(0.96); }
+  .tile .icon { font-size: 4rem; margin-bottom: 0.6rem; }
+  .tile .label { font-size: 1.3rem; font-weight: 600; }
+  .tile .desc { font-size: 0.85rem; opacity: 0.65; margin-top: 0.3rem; }
+
+  #footer-note {
+    position: absolute; bottom: 1.2rem; width: 100%; text-align: center;
+    color: rgba(255,255,255,0.6); font-size: 0.8rem;
+  }
+
+  /* ---------- SCREENSAVER ---------- */
+  #screensaver {
+    position: fixed; inset: 0;
+    background: linear-gradient(160deg, var(--teal-dark) 0%, #08312e 100%);
+    color: white;
+    display: none;
+    flex-direction: column; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 1s ease;
+  }
+  #screensaver.visible { display: flex; opacity: 1; }
+  .ss-time { font-size: 5.5rem; font-weight: 200; letter-spacing: 2px; }
+  .ss-date { font-size: 1.4rem; opacity: 0.8; margin-top: -0.3rem; margin-bottom: 2.2rem; }
+  .ss-location { font-size: 1.1rem; opacity: 0.7; margin-bottom: 2.5rem; letter-spacing: 1px; text-transform: uppercase; }
+
+  .ss-section-title {
+    font-size: 0.95rem; opacity: 0.6; letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .forecast-row {
+    display: flex; gap: 1.4rem; margin-bottom: 2.8rem;
+  }
+  .forecast-day {
+    background: rgba(255,255,255,0.08);
+    border-radius: 16px;
+    width: 110px; padding: 1rem 0.5rem;
+    text-align: center;
+  }
+  .forecast-day .d { font-size: 0.9rem; opacity: 0.75; margin-bottom: 0.4rem; }
+  .forecast-day .icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
+  .forecast-day .hi { font-size: 1.2rem; font-weight: 600; }
+  .forecast-day .lo { font-size: 0.95rem; opacity: 0.6; }
+
+  .tide-row {
+    display: flex; gap: 2rem;
+  }
+  .tide-card {
+    background: rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 1rem 1.6rem;
+    text-align: center;
+    min-width: 150px;
+  }
+  .tide-card .t-label { font-size: 0.85rem; opacity: 0.65; margin-bottom: 0.3rem; }
+  .tide-card .t-time { font-size: 1.3rem; font-weight: 600; }
+  .tide-card .t-height { font-size: 0.9rem; opacity: 0.6; }
+
+  .ss-loading { opacity: 0.6; font-size: 1rem; }
+  .tap-hint {
+    position: absolute; bottom: 1.5rem; font-size: 0.85rem; opacity: 0.4;
+  }
+</style>
+</head>
+<body>
+
+<div id="menu">
+  <h1>🏠 Casa Cara</h1>
+  <div class="sub">2163 Avalon Ave &nbsp;·&nbsp; Avalon, NJ</div>
+  <div class="tiles">
+    <a class="tile" href="https://jauen-w48.github.io/cascara" target="_blank" rel="noopener">
+      <div class="icon">📖</div>
+      <div class="label">Guest Guide</div>
+      <div class="desc">House info &amp; how-to's</div>
+    </a>
+    <a class="tile" href="sonos://" onclick="tryOpenSonos(event)">
+      <div class="icon">🎵</div>
+      <div class="label">Music</div>
+      <div class="desc">Open Sonos app</div>
+    </a>
+  </div>
+  <div id="footer-note">Tap a tile to get started</div>
+</div>
+
+<div id="screensaver">
+  <div class="ss-time" id="ss-clock">--:--</div>
+  <div class="ss-date" id="ss-date">Loading...</div>
+  <div class="ss-location">Avalon, New Jersey</div>
+
+  <div class="ss-section-title">5-Day Forecast</div>
+  <div class="forecast-row" id="forecast-row">
+    <div class="ss-loading">Loading weather…</div>
+  </div>
+
+  <div class="ss-section-title">Tides Today</div>
+  <div class="tide-row" id="tide-row">
+    <div class="ss-loading">Loading tides…</div>
+  </div>
+
+  <div class="tap-hint">Tap anywhere to return</div>
+</div>
+
+<script>
+  // ---------- Config ----------
+  const LAT = 39.1001, LON = -74.7157; // Avalon, NJ
+  const TIDE_STATION = "8536110"; // NOAA Cape May, NJ — nearest official tide prediction station to Avalon
+  const IDLE_TIMEOUT_MS = 90 * 1000; // 90s idle -> screensaver
+  const REFRESH_MS = 30 * 60 * 1000; // refresh weather/tide data every 30 min
+
+  // ---------- Sonos app open with App Store fallback ----------
+  function tryOpenSonos(e) {
+    e.preventDefault();
+    const fallback = setTimeout(function () {
+      window.location.href = "https://apps.apple.com/app/sonos/id293012728";
+    }, 1500);
+    window.location.href = "sonos://";
+    window.addEventListener("blur", function onBlur() {
+      clearTimeout(fallback);
+      window.removeEventListener("blur", onBlur);
+    });
+  }
+
+  // ---------- Clock ----------
+  function updateClock() {
+    const now = new Date();
+    const opts = { hour: "numeric", minute: "2-digit" };
+    document.getElementById("ss-clock").textContent = now.toLocaleTimeString("en-US", opts);
+    document.getElementById("ss-date").textContent = now.toLocaleDateString("en-US", {
+      weekday: "long", month: "long", day: "numeric"
+    });
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // ---------- Weather (Open-Meteo, no API key required) ----------
+  const weatherIcons = {
+    0: "☀️", 1: "🌤️", 2: "⛅", 3: "☁️",
+    45: "🌫️", 48: "🌫️",
+    51: "🌦️", 53: "🌦️", 55: "🌧️",
+    61: "🌧️", 63: "🌧️", 65: "🌧️",
+    71: "🌨️", 73: "🌨️", 75: "❄️",
+    80: "🌦️", 81: "🌧️", 82: "⛈️",
+    95: "⛈️", 96: "⛈️", 99: "⛈️"
+  };
+
+  async function loadWeather() {
+    try {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=weathercode,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&timezone=America%2FNew_York&forecast_days=5`;
+      const res = await fetch(url);
+      const data = await res.json();
+      const row = document.getElementById("forecast-row");
+      row.innerHTML = "";
+      data.daily.time.forEach((dateStr, i) => {
+        const date = new Date(dateStr + "T12:00:00");
+        const dayLabel = i === 0 ? "Today" : date.toLocaleDateString("en-US", { weekday: "short" });
+        const icon = weatherIcons[data.daily.weathercode[i]] || "🌡️";
+        const hi = Math.round(data.daily.temperature_2m_max[i]);
+        const lo = Math.round(data.daily.temperature_2m_min[i]);
+        const el = document.createElement("div");
+        el.className = "forecast-day";
+        el.innerHTML = `<div class="d">${dayLabel}</div><div class="icon">${icon}</div><div class="hi">${hi}°</div><div class="lo">${lo}°</div>`;
+        row.appendChild(el);
+      });
+    } catch (err) {
+      document.getElementById("forecast-row").innerHTML = '<div class="ss-loading">Weather unavailable</div>';
+    }
+  }
+
+  // ---------- Tides (NOAA CO-OPS API, no API key required) ----------
+  async function loadTides() {
+    try {
+      const today = new Date();
+      const y = today.getFullYear();
+      const m = String(today.getMonth() + 1).padStart(2, "0");
+      const d = String(today.getDate()).padStart(2, "0");
+      const dateStr = `${y}${m}${d}`;
+      const url = `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=${dateStr}&end_date=${dateStr}&station=${TIDE_STATION}&product=predictions&datum=MLLW&time_zone=lst_ldt&units=english&interval=hilo&format=json`;
+      const res = await fetch(url);
+      const data = await res.json();
+      const row = document.getElementById("tide-row");
+      row.innerHTML = "";
+      if (!data.predictions) throw new Error("no data");
+      data.predictions.forEach(p => {
+        const label = p.type === "H" ? "High Tide" : "Low Tide";
+        const t = new Date(p.t.replace(" ", "T"));
+        const timeStr = t.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+        const el = document.createElement("div");
+        el.className = "tide-card";
+        el.innerHTML = `<div class="t-label">${label}</div><div class="t-time">${timeStr}</div><div class="t-height">${parseFloat(p.v).toFixed(1)} ft</div>`;
+        row.appendChild(el);
+      });
+    } catch (err) {
+      document.getElementById("tide-row").innerHTML = '<div class="ss-loading">Tide data unavailable</div>';
+    }
+  }
+
+  loadWeather();
+  loadTides();
+  setInterval(loadWeather, REFRESH_MS);
+  setInterval(loadTides, REFRESH_MS);
+
+  // ---------- Idle detection -> screensaver ----------
+  let idleTimer;
+  const menu = document.getElementById("menu");
+  const screensaver = document.getElementById("screensaver");
+
+  function showScreensaver() {
+    screensaver.classList.add("visible");
+  }
+  function hideScreensaver() {
+    screensaver.classList.remove("visible");
+    resetIdleTimer();
+  }
+  function resetIdleTimer() {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(showScreensaver, IDLE_TIMEOUT_MS);
+  }
+
+  screensaver.addEventListener("click", hideScreensaver);
+  screensaver.addEventListener("touchstart", hideScreensaver);
+  ["click", "touchstart", "mousemove"].forEach(evt => {
+    menu.addEventListener(evt, resetIdleTimer);
+  });
+
+  resetIdleTimer();
+</script>
+
+</body>
+</html>
