@@ -242,10 +242,10 @@
         <div class="label">Guest Guide</div>
         <div class="desc">House info &amp; how-to's</div>
       </a>
-      <a class="tile" href="sonos://" onclick="tryOpenSonos(event)">
+      <a class="tile" href="music://" onclick="tryOpenMusic(event)">
         <div class="icon">🎵</div>
         <div class="label">Music</div>
-        <div class="desc">Open Sonos app</div>
+        <div class="desc">Open Apple Music</div>
       </a>
     </div>
     <div id="footer-note">Tap a tile to get started</div>
@@ -284,13 +284,13 @@
   const TIDE_STATION = "8536110"; // NOAA Cape May, NJ — nearest official tide prediction station to Avalon
   const REFRESH_MS = 30 * 60 * 1000; // refresh weather/tide data every 30 min
 
-  // ---------- Sonos app open with App Store fallback ----------
-  function tryOpenSonos(e) {
+  // ---------- Apple Music app open with App Store fallback ----------
+  function tryOpenMusic(e) {
     e.preventDefault();
     const fallback = setTimeout(function () {
-      window.location.href = "https://apps.apple.com/app/sonos/id293012728";
+      window.location.href = "https://apps.apple.com/app/apple-music/id1108187390";
     }, 1500);
-    window.location.href = "sonos://";
+    window.location.href = "music://";
     window.addEventListener("blur", function onBlur() {
       clearTimeout(fallback);
       window.removeEventListener("blur", onBlur);
