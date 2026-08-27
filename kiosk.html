@@ -54,8 +54,22 @@
   .tile .desc { font-size: 0.85rem; opacity: 0.65; margin-top: 0.3rem; }
 
   #footer-note {
-    position: absolute; bottom: 1.6rem; width: 100%; text-align: center;
+    position: absolute; bottom: 3.6rem; width: 100%; text-align: center;
     color: rgba(255,255,255,0.85); font-size: 1.3rem; font-weight: 600;
+  }
+
+  #home-hint {
+    position: absolute; bottom: 0.6rem; width: 100%; text-align: center;
+    color: rgba(255,255,255,0.75); font-size: 1rem; font-weight: 500;
+    display: flex; flex-direction: column; align-items: center; gap: 0.1rem;
+  }
+  #home-hint .arrow {
+    font-size: 1.6rem;
+    animation: bounce-down 1.4s ease-in-out infinite;
+  }
+  @keyframes bounce-down {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(8px); opacity: 1; }
   }
 
   /* ---------- SCREENSAVER ---------- */
@@ -151,6 +165,10 @@
     </a>
   </div>
   <div id="footer-note">Tap a tile to get started</div>
+  <div id="home-hint">
+    <span>Press HOME, then Casa Cara, to return</span>
+    <span class="arrow">⬇️</span>
+  </div>
 </div>
 
 <div id="screensaver">
