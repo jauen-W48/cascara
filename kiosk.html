@@ -405,6 +405,20 @@
   ["click", "touchstart", "mousemove", "scroll"].forEach(function (evt) {
     page.addEventListener(evt, resetIdleTimer, { passive: true });
   });
+
+  // Whenever the kiosk app is (re)opened or comes back to the foreground —
+  // e.g. after being backgrounded and iOS suspending it — treat that as
+  // fresh activity so a stale, already-expired timer doesn't instantly
+  // show the screensaver the moment it becomes visible again.
+  function wakeOnForeground() {
+    screensaver.classList.remove("visible");
+    resetIdleTimer();
+  }
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "visible") wakeOnForeground();
+  });
+  window.addEventListener("pageshow", wakeOnForeground);
+
   resetIdleTimer();
 </script>
 
