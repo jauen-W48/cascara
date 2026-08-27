@@ -185,32 +185,39 @@
     50% { transform: translateY(7px); opacity: 1; }
   }
 
-  /* ---------- SIMPLE SCREENSAVER ---------- */
+  /* ---------- SCREENSAVER ---------- */
   #screensaver {
     position: fixed; inset: 0;
-    background: linear-gradient(160deg, #1a7a76 0%, #0f5551 55%, #08312e 100%);
-    background-size: 200% 200%;
-    animation: drift 30s ease infinite;
+    background: #050505;
     display: none;
-    align-items: center; justify-content: center;
     z-index: 999;
-    opacity: 0; transition: opacity 0.8s ease;
+    opacity: 0; transition: opacity 1s ease;
+    overflow: hidden;
   }
-  #screensaver.visible { display: flex; opacity: 1; }
-  #tap-me-btn {
-    width: 200px; height: 200px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.97);
-    color: var(--teal-dark);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.4rem; font-weight: 700;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.35);
-    border: none;
-    animation: tap-pulse 1.8s ease-in-out infinite;
+  #screensaver.visible { display: block; opacity: 1; }
+  #tap-me-text {
+    position: absolute;
+    font-size: 3.2rem;
+    font-weight: 300;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.32);
+    text-shadow: 0 0 30px rgba(255,255,255,0.08);
+    animation: float-around 32s ease-in-out infinite, glow-pulse 4.5s ease-in-out infinite alternate;
+    white-space: nowrap;
   }
-  @keyframes tap-pulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 10px 40px rgba(0,0,0,0.35); }
-    50% { transform: scale(1.06); box-shadow: 0 14px 50px rgba(0,0,0,0.45); }
+  @keyframes float-around {
+    0%   { top: 18%; left: 12%; }
+    17%  { top: 62%; left: 58%; }
+    34%  { top: 74%; left: 14%; }
+    50%  { top: 22%; left: 55%; }
+    67%  { top: 58%; left: 30%; }
+    84%  { top: 34%; left: 68%; }
+    100% { top: 18%; left: 12%; }
+  }
+  @keyframes glow-pulse {
+    from { opacity: 0.22; text-shadow: 0 0 20px rgba(255,255,255,0.06); }
+    to   { opacity: 0.5;  text-shadow: 0 0 40px rgba(255,255,255,0.18); }
   }
 </style>
 </head>
@@ -267,8 +274,8 @@
   <span class="arrow">⬇️</span>
 </div>
 
-<div id="screensaver">
-  <button id="tap-me-btn" onclick="wakeFromScreensaver()">Tap Me</button>
+<div id="screensaver" onclick="wakeFromScreensaver()">
+  <div id="tap-me-text">Tap Me</div>
 </div>
 
 <script>
@@ -400,6 +407,7 @@
   ["click", "touchstart", "mousemove", "scroll"].forEach(function (evt) {
     page.addEventListener(evt, resetIdleTimer, { passive: true });
   });
+  screensaver.addEventListener("touchstart", window.wakeFromScreensaver);
   resetIdleTimer();
 </script>
 
