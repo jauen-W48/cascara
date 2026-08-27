@@ -68,3 +68,35 @@ if (localStorage.getItem('casa_kiosk_device') === '1') {
     }
   });
 }
+
+// ---------- Nav bar scroll arrow indicators ----------
+// The top nav scrolls horizontally on every page. Wrap it and inject
+// left/right arrow hints that fade in/out based on scroll position, so it's
+// clear there's more to see when the nav is scrolled to either edge.
+(function setupNavArrows() {
+  const nav = document.querySelector('nav');
+  if (!nav) return;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'nav-wrap';
+  nav.parentNode.insertBefore(wrap, nav);
+  wrap.appendChild(nav);
+
+  const leftArrow = document.createElement('div');
+  leftArrow.className = 'nav-arrow nav-arrow-left';
+  leftArrow.textContent = '\u2039'; // ‹
+  const rightArrow = document.createElement('div');
+  rightArrow.className = 'nav-arrow nav-arrow-right';
+  rightArrow.textContent = '\u203A'; // ›
+  wrap.appendChild(leftArrow);
+  wrap.appendChild(rightArrow);
+
+  function updateArrows() {
+    const maxScroll = nav.scrollWidth - nav.clientWidth;
+    leftArrow.style.opacity = nav.scrollLeft > 4 ? '1' : '0';
+    rightArrow.style.opacity = maxScroll > 4 && nav.scrollLeft < maxScroll - 4 ? '1' : '0';
+  }
+  nav.addEventListener('scroll', updateArrows, { passive: true });
+  window.addEventListener('resize', updateArrows);
+  updateArrows();
+})();
