@@ -53,4 +53,18 @@ if (localStorage.getItem('casa_kiosk_device') === '1') {
     document.addEventListener(evt, resetIdleTimer, { passive: true });
   });
   resetIdleTimer();
+
+  // Also return to the kiosk landing page immediately whenever the app is
+  // reopened from the Home Screen after being backgrounded (Home button,
+  // then tap the Casa Cara icon again). Backgrounding suspends this page
+  // rather than reloading it, so without this it would just resume on
+  // whatever guest guide page it was left on. visibilitychange only fires
+  // this way on a genuine foreground-resume of an already-loaded page, not
+  // on a normal in-site navigation (tapping a nav link loads a fresh page
+  // that starts out visible, so no transition event fires).
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible') {
+      returnToKiosk();
+    }
+  });
 }
