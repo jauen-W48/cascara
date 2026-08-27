@@ -274,7 +274,7 @@
   <span class="arrow">⬇️</span>
 </div>
 
-<div id="screensaver" onclick="wakeFromScreensaver()">
+<div id="screensaver" onclick="wakeFromScreensaver(event)">
   <div id="tap-me-text">Tap Me</div>
 </div>
 
@@ -284,17 +284,14 @@
   const TIDE_STATION = "8536110"; // NOAA Cape May, NJ — nearest official tide prediction station to Avalon
   const REFRESH_MS = 30 * 60 * 1000; // refresh weather/tide data every 30 min
 
-  // ---------- Apple Music app open with App Store fallback ----------
+  // ---------- Apple Music app open ----------
+  // No fallback needed — Music is a built-in system app that's always present.
+  // (A fallback timer here previously caused false redirects to the App Store
+  // in standalone/Home-Screen mode, since the blur event it relied on doesn't
+  // fire reliably in that mode even when the app opens successfully.)
   function tryOpenMusic(e) {
     e.preventDefault();
-    const fallback = setTimeout(function () {
-      window.location.href = "https://apps.apple.com/app/apple-music/id1108187390";
-    }, 1500);
     window.location.href = "music://";
-    window.addEventListener("blur", function onBlur() {
-      clearTimeout(fallback);
-      window.removeEventListener("blur", onBlur);
-    });
   }
 
   // ---------- Clock ----------
@@ -396,7 +393,8 @@
   function showScreensaver() {
     screensaver.classList.add("visible");
   }
-  window.wakeFromScreensaver = function () {
+  window.wakeFromScreensaver = function (e) {
+    if (e) { e.preventDefault(); e.stopPropagation(); }
     screensaver.classList.remove("visible");
     resetIdleTimer();
   };
@@ -407,7 +405,6 @@
   ["click", "touchstart", "mousemove", "scroll"].forEach(function (evt) {
     page.addEventListener(evt, resetIdleTimer, { passive: true });
   });
-  screensaver.addEventListener("touchstart", window.wakeFromScreensaver);
   resetIdleTimer();
 </script>
 
